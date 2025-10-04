@@ -10,37 +10,55 @@
                         </div>
 
                         <div class="card-body pd-4">
-                              
+
                               <!-- {% if error %}
                               <div class="alert alert-danger text-center">{{error}}</div>
                               {% endif %}  -->
                               {% if error %}
-                               <div class="alert alert-danger text-center ">{{error}}</div>
+                              <div class="alert alert-danger text-center ">{{error}}</div>
                               {% endif %}
 
                               <!-- {% if success %}
                                      <p style="color:green;">{{ success }}</p>
                               {% endif %} -->
 
-                              
-                              <form method="post">
-                                    <!-- {% csrf_token%} cross-site request forgergy  security issue  -->
-                                     {% csrf_token %}
-                                     <div class="mb-3">
-                                          <label for="username " class="form-label"><i class="fas fa-user"></i>UserName</label>
-                                          <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required>
-                                      </div>
+                              <!-- {% csrf_token%} cross-site request forgergy  security issue  -->
+                              <form method="POST">
+                                    {% csrf_token %}
+                                    <div class="mb-3">
+                                          <label for="username" class="form-label"><i
+                                                      class="fas fa-user"></i>UserName</label>
+                                          <input type="text" class="form-control" id="username" name="username"
+                                                placeholder="Enter Username" required>
+                                    </div>
+                                    <div class="mb-3">
+                                          <label for="password" class="form-label"><i
+                                                      class="fas fa-lock"></i>Password</label>
+                                          <input type="password" class="form-control" id="password" name="password"
+                                                placeholder="Enter Password" required>
+                                          <!-- Changed 'name="username"' to 'name="password"' -->
+                                    </div>
+                                    <button type="submit" class="btn btn-success w-100">
+                                          <i class="fas fa-sign-in-alt"></i> Login
+                                    </button>
 
-
-                                       <div class="mb-3">
-                                          <label for="password" class="form-label"><i class="fas fa-lock"></i>Password</label>
-                                          <input type="password" class="form-control" id="Password" name="username" placeholder="Enter Password" required>
-                                      </div>
-                                      <button type="submit" class="btn btn-success w-100">
-                                      <i class="fas fa-sign-in-alt"></i> Login
-                                      </button>
-
+                                    {% if error %}
+                                    <div class="error">{{ error }}</div>
+                                    {% endif %}
                               </form>
+
+
+                              <!-- <form method="POST">
+                                    {% csrf_token %}
+                                    <input type="text" name="username" placeholder="Username">
+                                    <input type="password" name="password" placeholder="Password">
+                                    <button type="submit">Login</button>
+
+                                    {% if error %}
+                                    <div class="error">{{ error }}</div>
+                                    {% endif %}
+                              </form> -->
+
 
                         </div>
 

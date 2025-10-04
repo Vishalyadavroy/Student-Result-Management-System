@@ -4,7 +4,7 @@ from django.db import models
 
 class Class(models.Model):
     class_name = models.CharField(max_length=50)
-    class_numeric = models.IntegerField()
+    class_numeric = models.IntegerField(null=True, blank=True)
     section = models.CharField(max_length=20)
     creation_date = models.DateTimeField(auto_now_add=True)
     updation_date = models.DateTimeField(auto_now=True)
