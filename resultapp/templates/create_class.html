@@ -1,0 +1,45 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="container">
+     <h2 class="mb-4"><i class="fas fa-plus-circle "></i>Create Student Class</h2>
+<form  method="post">
+      {% csrf_token %}
+      <div class="mb-3">
+            <label for="classname" class="form-label">Class Name</label>
+            <input type="text" class="form-control" id="classname" name="classname" required
+            placeholder="Enter class name">
+            <small class="text-muted">Enter  class name</small>
+
+      </div>
+
+
+      <div class="mb-3">
+            <label for="classnamenumeric" class="form-label">Class Name in Numeric</label>
+            <input type="text" class="form-control" id="classnamenumeric" name="classnamenumeric" required
+            placeholder="Enter class name">
+            <small class="text-muted">Enter  class name in Numeric</small>
+
+      </div>
+
+  <div class="mb-3">
+            <label for="section" class="form-label">Section</label>
+            <input type="text" class="form-control" id="section" name="section" required
+            placeholder="Enter section">
+            <small class="text-muted">Enter section</small>
+
+      </div>
+
+
+ 
+<button type="submit" class="btn btn-success"><i class="fas fa-check-circle me-1"></i>submit</button>
+
+
+
+</form>
+
+</div>
+
+{% endblock %}
