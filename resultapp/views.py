@@ -130,3 +130,71 @@ def create_subject(request):
                   messages.error(request,f"Something went wrong:{str(e)}")
                   return redirect('create_subject') 
       return render(request ,"create_subject.html")
+
+
+@login_required
+def manage_subject(request):
+    classes = Subject.objects.all()
+    if request.GET.get('delete'):
+         try:
+            subject_id = request.GET.get('delete')
+            subject_obj= get_object_or_404(Subject ,id=subject_id)
+            subject_obj.delete()
+            messages.success(request , "subject deleted succsessfully")
+            return redirect('manage_subject')
+         except Exception as e:
+           messages.error(request, f"Something went wrong:{str(e)}")
+           return redirect('manage_subject')
+    return render(request, "manage_subject.html", locals())
+
+
+@login_required
+def edit_subject(request , subject_id):
+      subject_obj = get_object_or_404(Subject, id=subject_id)
+      if request.method == 'POST':
+          
+            subject_name = request.POST.get('subjectname')
+            subject_code = request.POST.get('subjectcode')
+            
+           
+            try:
+             subject_obj.class_name = subject_name
+             subject_obj.class_numeric = subject_code
+             subject_obj.save()
+ 
+             messages.success(request,"Subject update Successfully ")
+             return redirect('manage_classes') 
+            except Exception as e:
+                  messages.error(request,f"Something went wrong:{str(e)}")
+                  return redirect('edit_class') 
+      return render(request ,"edit_subject.html" , locals())
+
+
+@login_required
+def add_subject_combination(request):
+    classes = Class.objects.all()
+    subjects = Subject.objects.all()
+
+    if request.method == 'POST':
+        try:
+            class_id = request.POST.get('class')
+            subject_id = request.POST.get('subject')
+
+            # ✅ Correct field name used: 'student_class_id'
+            StudentCombination.objects.create(
+                student_class_id=class_id,
+                subject_id=subject_id,
+                status=1
+            )
+
+            messages.success(request, "Subject combination added successfully!")
+            return redirect('create_subject')
+
+        except Exception as e:
+            messages.error(request, f"Something went wrong: {str(e)}")
+            return redirect('add_subject_combination')
+
+    return render(request, "add_subject_combination.html", {
+        'classes': classes,
+        'subjects': subjects
+    })
