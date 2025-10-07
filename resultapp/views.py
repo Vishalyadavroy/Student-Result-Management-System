@@ -3,7 +3,9 @@ from django.contrib.auth import authenticate, login ,logout
 from django.contrib import messages
 from .models import *
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404 
+
+
 
 
 # Create your views here.
@@ -198,3 +200,34 @@ def add_subject_combination(request):
         'classes': classes,
         'subjects': subjects
     })
+
+
+
+@login_required
+def manage_subject_combination(request):
+    combinations = StudentCombination.objects.all()
+    aid = request.GET.get('aid')
+    if request.GET.get('aid'):
+         try:
+            StudentCombination.objects.filter(id=aid).update(status = 1)
+         
+            messages.success(request , "subject combination activated succsessfully")
+            return redirect('manage_subject')
+         except Exception as e:
+           messages.error(request, f"Something went wrong:{str(e)}")
+           return redirect('manage_subject_combination')
+         
+    did = request.GET.get('aid')
+    if request.GET.get('did'):
+         try:
+            StudentCombination.objects.filter(id=did).update(status = 0)
+         
+            messages.success(request , "subject combination deactivated succsessfully")
+            return redirect('manage_subject')
+         except Exception as e:
+           messages.error(request, f"Something went wrong:{str(e)}")
+           return redirect('manage_subject_combination')
+
+
+
+    return render(request, "manage_subject_combination.html", locals())
