@@ -28,7 +28,7 @@ class Student(models.Model):
         ('Male', 'Male'),
         ('Female', 'Female'),
     )
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, null=True, blank=True)
     roll_id = models.CharField(max_length=20)
     email = models.EmailField(max_length=50)
     gender = models.CharField(max_length=20, choices=GENDER_CHOICES)
@@ -36,6 +36,8 @@ class Student(models.Model):
     student_class = models.ForeignKey(Class, on_delete=models.SET_NULL, null=True)
     reg_date = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(default=1)
+    
+
 
     def __str__(self):
         return f"{self.name} ({self.roll_id})"

@@ -8,4 +8,5 @@ admin.site.register(StudentCombination)
 admin.site.register(Result)
 admin.site.register(Notice)
 
+
 # Register your models here.

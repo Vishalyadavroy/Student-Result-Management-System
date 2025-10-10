@@ -231,3 +231,80 @@ def manage_subject_combination(request):
 
 
     return render(request, "manage_subject_combination.html", locals())
+
+
+
+
+
+
+@login_required
+def add_student(request):
+    classes = Class.objects.all()
+    subjects = Subject.objects.all()
+
+    if request.method == 'POST':
+        try:
+            name = request.POST.get('fullname')
+            roll_id = request.POST.get('rollid')
+            email_id = request.POST.get('emailid')
+            gender = request.POST.get('gender')
+            dob = request.POST.get('dob')
+            class_id = request.POST.get('class')
+            
+            student_class = Class.objects.get(id=class_id)
+
+            # ✅ Correct field name used: 'student_class_id'
+            Student.objects.create(
+                name=name,
+                roll_id=roll_id,
+                gender=gender,
+                dob=dob,
+                student_class=student_class,
+               
+            )
+
+            messages.success(request, "student added successfully!")
+            return redirect('create_subject')
+
+        except Exception as e:
+            messages.error(request, f"Something went wrong: {str(e)}")
+            return redirect('add_subject_combination')
+
+    return render(request, "add_student.html", {
+        'classes': classes,
+        'subjects': subjects
+    })
+
+
+
+
+
+@login_required
+def manage_students(request):
+    students = Student.objects.all()
+    
+    return render(request, "manage_students.html", locals())
+
+
+
+@login_required
+def edit_student(request , student_id):
+      student_obj = get_object_or_404(Student, id=student_id)
+      if request.method == 'POST':
+           
+            try:
+             
+             
+             student_obj.name = request.POST.get('fullname')
+             student_obj.roll_id = request.POST.get('rollid')
+             student_obj.email = request.POST.get('emailid')
+             student_obj.gender = request.POST.get('gender')
+             student_obj.dob = request.POST.get('dob')
+             student_obj.status = request.POST.get('status')
+ 
+             messages.success(request,"student update Successfully ")
+             return redirect('manage_classes') 
+            except Exception as e:
+                  messages.error(request,f"Something went wrong:{str(e)}")
+                  return redirect('manage_student') 
+      return render(request ,"edit_student.html" , locals())
