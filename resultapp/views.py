@@ -308,3 +308,81 @@ def edit_student(request , student_id):
                   messages.error(request,f"Something went wrong:{str(e)}")
                   return redirect('manage_student') 
       return render(request ,"edit_student.html" , locals())
+
+
+@login_required
+def add_notice(request):
+    if request.method == 'POST':
+        try:
+            title = request.POST.get('title')
+            details = request.POST.get('details')
+
+            Notice.objects.create(
+                title=title,
+                detail=details,  # ✅ correct field name
+            )
+
+            messages.success(request, "Notice added successfully!")
+            return redirect('add_notice')
+
+        except Exception as e:
+            messages.error(request, f"Something went wrong: {str(e)}")
+            return redirect('add_notice')
+
+    return render(request, "add_notice.html")
+
+
+@login_required
+def manage_notice(request):
+    notices = Notice.objects.all()
+    if request.GET.get('delete'):
+         try:
+            notice_id = request.GET.get('delete')
+            notice_obj= get_object_or_404(Notice ,id=notice_id)
+            notice_obj.delete()
+            messages.success(request , "Notice deleted succsessfully")
+            return redirect('manage_subject')
+         except Exception as e:
+           messages.error(request, f"Something went wrong:{str(e)}")
+           return redirect('manage_notice')
+    return render(request, "manage_notice.html", locals())
+
+
+@login_required
+def add_result(request):
+    classes = Class.objects.all()
+    subjects = Subject.objects.all()
+
+    if request.method == 'POST':
+        try:
+            name = request.POST.get('fullname')
+            roll_id = request.POST.get('rollid')
+            email_id = request.POST.get('emailid')
+            gender = request.POST.get('gender')
+            dob = request.POST.get('dob')
+            class_id = request.POST.get('class')
+            
+            student_class = Class.objects.get(id=class_id)
+
+            # ✅ Correct field name used: 'student_class_id'
+            Student.objects.create(
+                name=name,
+                roll_id=roll_id,
+                gender=gender,
+                dob=dob,
+                student_class=student_class,
+               
+            )
+
+            messages.success(request, "student added successfully!")
+            return redirect('create_subject')
+
+        except Exception as e:
+            messages.error(request, f"Something went wrong: {str(e)}")
+            return redirect('add_subject_combination')
+
+    return render(request, "add_result.html", {
+        'classes': classes,
+        'subjects': subjects
+    })
+

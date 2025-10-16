@@ -17,7 +17,7 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
-from resultapp.views import index ,admin_login ,admin_dashboard ,create_class ,admin_logout ,manage_classes,edit_class ,create_subject,manage_subject ,edit_subject,add_subject_combination ,manage_subject_combination,add_student,manage_students,edit_student
+from resultapp.views import index ,admin_login ,admin_dashboard ,create_class ,admin_logout ,manage_classes,edit_class ,create_subject,manage_subject ,edit_subject,add_subject_combination ,manage_subject_combination,add_student,manage_students,edit_student,add_notice,manage_notice,add_result
 
 urlpatterns = [
     path('Vishaladmin/', admin.site.urls),
@@ -37,5 +37,9 @@ urlpatterns = [
     path('add_student/',add_student, name='add_student'),
     path('manage_students/',manage_students, name='manage_students'),
     path('edit_student/<int:student_id>/',edit_student, name='edit_student'),
+
+     path('add_notice/',add_notice, name='add_notice'),
+     path('manage_notice/',manage_notice, name='manage_notice'),
+    path('add_result/',add_result, name='add_result'),
 
 ]
